@@ -23,16 +23,16 @@ function onSubmit() {
 
     <div class="field">
       <label for="email">Email</label>
-      <input id="email" v-model="form.email" type="email" placeholder="admin@email.com" />
+      <input id="email" v-model="form.email" type="email" placeholder="admin@email.com" autocomplete="off" />
     </div>
 
     <div class="field">
       <label for="password">Password</label>
-      <input id="password" v-model="form.password" type="password" />
+      <input id="password" v-model="form.password" type="password" autocomplete="new-password" />
     </div>
 
     <p v-if="error" class="error-text">{{ error }}</p>
 
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Log in</button>
   </form>
 </template>
