@@ -3,6 +3,7 @@ defineProps({
   students: { type: Array, required: true },
   isAdmin: { type: Boolean, default: false },
   loading: { type: Boolean, default: false },
+  deletingId: { type: Number, default: null },
 });
 
 defineEmits(['edit', 'delete']);
@@ -36,8 +37,20 @@ defineEmits(['edit', 'delete']);
             <td>{{ student.year_level }}</td>
             <td v-if="isAdmin">
               <div class="actions">
-                <button class="btn btn-small btn-primary" @click="$emit('edit', student)">Edit</button>
-                <button class="btn btn-small btn-danger" @click="$emit('delete', student)">Delete</button>
+                <button
+                  class="btn btn-small btn-primary"
+                  :disabled="deletingId === student.id"
+                  @click="$emit('edit', student)"
+                >
+                  Edit
+                </button>
+                <button
+                  class="btn btn-small btn-danger"
+                  :disabled="deletingId === student.id"
+                  @click="$emit('delete', student)"
+                >
+                  {{ deletingId === student.id ? 'Deleting...' : 'Delete' }}
+                </button>
               </div>
             </td>
           </tr>

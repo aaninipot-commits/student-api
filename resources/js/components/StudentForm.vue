@@ -1,29 +1,16 @@
 <script setup>
-import { reactive, computed } from 'vue';
-
-const props = defineProps({
-  student: { type: Object, default: null },
+defineProps({
+  form: { type: Object, required: true },
   errors: { type: Object, default: () => ({}) },
+  isEditing: { type: Boolean, default: false },
+  saving: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['submit', 'cancel']);
-
-const form = reactive({
-  name: props.student?.name ?? '',
-  email: props.student?.email ?? '',
-  course: props.student?.course ?? '',
-  year_level: props.student?.year_level ?? '',
-});
-
-const isEditing = computed(() => props.student !== null);
-
-function onSubmit() {
-  emit('submit', { ...form });
-}
+defineEmits(['submit', 'cancel']);
 </script>
 
 <template>
-  <form class="card" @submit.prevent="onSubmit">
+  <form class="card" @submit.prevent="$emit('submit')">
     <h2>{{ isEditing ? 'Edit Student' : 'Add Student' }}</h2>
 
     <div class="field">
@@ -51,10 +38,16 @@ function onSubmit() {
     </div>
 
     <div class="actions">
-      <button type="submit" class="btn btn-primary">
-        {{ isEditing ? 'Update' : 'Save' }}
+      <button type="submit" class="btn btn-primary" :disabled="saving">
+        {{ saving ? 'Saving...' : isEditing ? 'Update' : 'Save' }}
       </button>
-      <button v-if="isEditing" type="button" class="btn btn-secondary" @click="emit('cancel')">
+      <button
+        v-if="isEditing"
+        type="button"
+        class="btn btn-secondary"
+        :disabled="saving"
+        @click="$emit('cancel')"
+      >
         Cancel
       </button>
     </div>
