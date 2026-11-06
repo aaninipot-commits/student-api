@@ -10,7 +10,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        return response()->json(Student::all());
+        return response()->json(Student::orderBy('id')->get());
     }
 
     public function store(Request $request)
